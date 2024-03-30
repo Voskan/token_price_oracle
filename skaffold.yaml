@@ -1,0 +1,19 @@
+apiVersion: skaffold/v2beta3
+kind: Config
+deploy:
+  kubeContext: docker-desktop
+  kubectl:
+    manifests:
+      - ./infra/k8s/*
+build:
+  local:
+    push: false
+  artifacts:
+    - image: token-price-oracle/auth
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
