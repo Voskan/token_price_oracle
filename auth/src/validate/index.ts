@@ -1,7 +1,11 @@
 import { body } from "express-validator";
 
 export const validateSignUp = [
-  body("email").isEmail().withMessage("Email must be valid").normalizeEmail(),
+  body("email")
+    .trim()
+    .isEmail()
+    .withMessage("Email must be valid")
+    .normalizeEmail(),
 
   body("password")
     .trim()

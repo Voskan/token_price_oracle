@@ -15,6 +15,25 @@ spec:
       containers:
         - name: price-oracle
           image: token-price-oracle/price-oracle
+          env:
+            - name: JWT_KEY
+              value: "hJ4RtYnggWrs@rt45DF$hhvv87"
+            - name: ORACLE_MONOGO_URI
+              value: "mongodb://price-oracle-mongo-srv:27017/auth"
+            - name: APP_ORACLE_PORT
+              value: "3001"
+            - name: CACHE_TTL
+              value: "60"
+            - name: REDIS_URI
+              value: "redis://price-oracle-redis-srv:6379"
+            - name: COINGECKO_BASE_URL
+              value: "https://api.coingecko.com/api/v3"
+            - name: CRYPTOCOMPARE_BASE_URL
+              value: "https://min-api.cryptocompare.com/data"
+            - name: RPC_URL
+              value: "https://mainnet.infura.io/v3"
+            - name: BINANCE_API_URL
+              value: "https://api.binance.com/api/v3"
 ---
 apiVersion: v1
 kind: Service

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: price-oracle-mongo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: price-oracle-mongo
+  template:
+    metadata:
+      labels:
+        app: price-oracle-mongo
+    spec:
+      containers:
+        - name: price-oracle-mongo
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: price-oracle-mongo-srv
+spec:
+  selector:
+    app: price-oracle-mongo
+  ports:
+    - name: db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017

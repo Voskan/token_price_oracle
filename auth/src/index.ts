@@ -1,21 +1,16 @@
 import express from "express";
 import "express-async-errors";
 import { json } from "body-parser";
+import mongoose from "mongoose";
 
-import { currentUserRouter } from "./api/routes/current-user";
-import { signinRouter } from "./api/routes/signin";
-import { signoutRouter } from "./api/routes/signout";
-import { signupRouter } from "./api/routes/signup";
+import { router } from "./api/routes/routes";
 import { errorHandler } from "./middlewares/errorHandler";
 import { NotFoundError } from "./errors/notFoundError";
 
 const app = express();
-app.use(json());
 
-app.use(currentUserRouter);
-app.use(signinRouter);
-app.use(signoutRouter);
-app.use(signupRouter);
+app.use(json());
+app.use("/api/users", router);
 
 app.all("*", async () => {
   throw new NotFoundError();
@@ -23,8 +18,18 @@ app.all("*", async () => {
 
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 3000;
+const start = async () => {
+  try {
+    await mongoose.connect(process.env.MONOGO_URI!);
+    console.log("Connected to MongoDB");
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
 
-app.listen(PORT, () => {
-  console.log("AUTH SERVICE LISTENING ON PORT 3000 !!!!!!");
-});
+  app.listen(process.env.APP_PORT, () => {
+    console.log(`AUTH SERVICE: Listening on port ${process.env.APP_PORT}`);
+  });
+};
+
+start();
