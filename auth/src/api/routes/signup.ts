@@ -1,15 +1,15 @@
 import express, { Request, Response } from "express";
 import { validationResult } from "express-validator";
-import { validateSignUp } from "../validate";
-import { RequestValidationError } from "../errors/request-validation-error";
-import { DatabaseConnectionError } from "../errors/database-connection-errors";
+import { validateSignUp } from "../../validate";
+import { RequestValidationError } from "../../errors/requestValidationError";
+import { DatabaseConnectionError } from "../../errors/databaseConnectionErrors";
 
 const router = express.Router();
 
 router.post(
   "/api/users/signup",
   validateSignUp,
-  (req: Request, res: Response) => {
+  async (req: Request, res: Response) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
