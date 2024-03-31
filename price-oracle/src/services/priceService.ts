@@ -1,6 +1,7 @@
 import { TokenPairModel } from "../models/tokenPairModel";
 import { getTokenPrices } from "../dataSources";
 import { aggregatePriceData } from "../utils/aggregator";
+import { NotFoundError } from "../errors/notFoundError";
 
 /**
  * Get the aggregated price for a token pair.
@@ -11,7 +12,7 @@ const getAggregatedTokenPrice = async (symbol: string): Promise<number> => {
   try {
     const tokenPair = await TokenPairModel.findOne({ symbol }).exec();
     if (!tokenPair) {
-      throw new Error(`Пара токенов ${symbol} не найдена.`);
+      throw new NotFoundError(`Token pair ${symbol} not found.`);
     }
 
     const prices = await getTokenPrices(); // { dexPrice: number, cexPrice: number }

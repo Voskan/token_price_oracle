@@ -4,6 +4,7 @@ interface TokenPair {
   symbol: string;
   address: string;
   dataSource: string;
+  price: number;
 }
 
 const tokenPairSchema = new mongoose.Schema<TokenPair>({
@@ -19,6 +20,10 @@ const tokenPairSchema = new mongoose.Schema<TokenPair>({
   dataSource: {
     type: String,
     required: true,
+  },
+  price: {
+    type: Number,
+    default: 0,
   },
 });
 

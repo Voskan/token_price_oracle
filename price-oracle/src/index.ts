@@ -10,7 +10,7 @@ import { NotFoundError } from "./errors/notFoundError";
 const app = express();
 
 app.use(json());
-app.use("/api/users", router);
+app.use("/api/prices", router);
 
 app.all("*", async () => {
   throw new NotFoundError();
