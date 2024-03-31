@@ -13,7 +13,7 @@ spec:
         app: price-oracle
     spec:
       containers:
-        - name:
+        - name: price-oracle
           image: token-price-oracle/price-oracle
 ---
 apiVersion: v1
