@@ -17,3 +17,10 @@ spec:
                 name: auth-srv
                 port:
                   number: 3000
+          - path: /api/prices/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: price-oracle-srv
+                port:
+                  number: 3001
