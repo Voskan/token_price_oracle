@@ -2,6 +2,7 @@ import { TokenPairModel } from "../models/tokenPairModel";
 import { getTokenPrices } from "../dataSources";
 import { aggregatePriceData } from "../utils/aggregator";
 import { NotFoundError } from "../errors/notFoundError";
+import cache from "../utils/cache";
 
 /**
  * Get the aggregated price for a token pair.
@@ -15,11 +16,17 @@ const getAggregatedTokenPrice = async (symbol: string): Promise<number> => {
       throw new NotFoundError(`Token pair ${symbol} not found.`);
     }
 
-    const prices = await getTokenPrices(); // { dexPrice: number, cexPrice: number }
+    if (await cache.get(symbol)) {
+      return Promise.resolve(parseFloat((await cache.get(symbol)) as string));
+    }
+
+    const prices = await getTokenPrices(tokenPair.address, tokenPair.symbol);
     const aggregatedPrice = aggregatePriceData([
       { price: prices.dexPrice, volume: 1000 }, // Example volume
-      { price: prices.cexPrice, volume: 1000 }, // Example volume
+      { price: prices.cexPrice, volume: 1000 },
     ]);
+
+    cache.set(symbol, aggregatedPrice.toString(), 120); // Cache for 120 seconds
 
     return aggregatedPrice;
   } catch (error) {

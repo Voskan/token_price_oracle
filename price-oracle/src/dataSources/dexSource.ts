@@ -1,9 +1,6 @@
 import { ethers } from "ethers";
 import { NotFoundError } from "../errors/notFoundError";
 
-// Address Uniswap V2 Pair for USDT/ETH.
-const UNISWAP_PAIR_ADDRESS = "0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852";
-
 // ABI interface for Uniswap V2 Pair.
 const UNISWAP_PAIR_ABI = [
   "function getReserves() external view returns (uint112 reserve0, uint112 reserve1, uint32 blockTimestampLast)",
@@ -13,11 +10,11 @@ const UNISWAP_PAIR_ABI = [
  * Get the price of a token from a DEX.
  * @returns {Promise<number>} Token price.
  */
-const getTokenPriceFromDEX = async (): Promise<number> => {
+const getTokenPriceFromDEX = async (address: string): Promise<number> => {
   try {
     const provider = new ethers.JsonRpcProvider(process.env.RPC_URL + "/1b9");
     const uniswapPairContract = new ethers.Contract(
-      UNISWAP_PAIR_ADDRESS,
+      address,
       UNISWAP_PAIR_ABI,
       provider
     );

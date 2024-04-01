@@ -9,15 +9,15 @@ import {
  */
 const getAggregatedPrice = async (req: Request, res: Response) => {
   try {
-    const { symbol } = req.params;
-    if (!symbol) {
+    const { pair } = req.query;
+    if (!pair) {
       return res
         .status(400)
         .json({ message: "Need to specify a token pair symbol." });
     }
 
-    const price = await getAggregatedTokenPrice(symbol);
-    return res.json({ symbol, price });
+    const price = await getAggregatedTokenPrice(pair as string);
+    return res.json({ pair, price });
   } catch (error) {
     throw error;
   }

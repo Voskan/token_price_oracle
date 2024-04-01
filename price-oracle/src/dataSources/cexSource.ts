@@ -4,11 +4,11 @@ import https from "https";
  * Get token price from CEX.
  * @returns {Promise<number>} Token price.
  */
-const getTokenPriceFromCEX = (): Promise<number> => {
+const getTokenPriceFromCEX = (symbol: string): Promise<number> => {
   return new Promise((resolve, reject) => {
     https
       .get(
-        process.env.BINANCE_API_URL + "/ticker/price?symbol=ETHUSDT",
+        process.env.BINANCE_API_URL + "/ticker/price?symbol=" + symbol,
         (res) => {
           let data = "";
 
